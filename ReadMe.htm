@@ -1,0 +1,63 @@
+<h1>An ASCOM Observing Conditions driver that gets its information one of 4 different cloud based weather services:</h1>
+<p>
+    <ul>
+        <li>1) OWM = General location based (City Name, Zip Code, City Id, Lat/Lon) current weather from curated stations and AI driven weather predictions from OpenWeatherMap.org (v2.5).</li>
+        <li>2) OWM3 = Personal Weather Stations (PWSs) which natively (or via custom javascript) feed their data to OpenWeatherMap.org (v3.0 which is very different from v2.5). </li>
+        <ul>
+            <li>Be forewarned, this v3.0 environment is beta and my recent testing shows the posting of the data seems to be delayed by 9 hours and the feed is intermittent. </li>
+        </ul>
+        <li>
+            3) WCWU = PWSs that feed their data to Weather Underground (Wunderground.com which is now hosted by "The Weather Channel" on the IBM Cloud (WeatherChannel.com)).
+            <ul>
+                <li>This can post data coming from PWSs registered to the site, such as <a href="https://www.acurite.com/">AcuRite's 5in1 WiFi enabled system</a>. </li>
+            </ul>
+        <li>4) WLL = PWSs that feed their data to WeatherLink Live (e.g. Davis Intruments <a href="https://www.davisinstruments.com/pages/vantage-pro2">VantagePro2 PWS</a>).</li>
+    </ul>
+<p>This Observing Conditions (ObsCon) driver is a combination of custom code as well as code from both the OpenWeatherMaps v2.5 driver (with my extension to v3.0 PWS methods) and the Wunderground WUAPI-ObsCon driver, which is not being supported by the author and no longer working.
+<p>Like it's progenitors, this driver is based on Chris Rowland's idea to populate an ASCOM ObsCon interface with data from a weather API, rather than from physically connected hardware and sensors.</p>
+
+<hr>
+<p>Users will require three things to configure the driver:</p>
+<ul>
+    <li>1) A logon account to one or both of the service providers (WCWU and/or OWM).</li>
+    <li>2) An API Key one or both of these providers. </li>
+    <ul>
+        3) A selected site location:
+        <ul>
+            <li>Enter your registered WCWU, OWM3, or WLL PWS Station ID and mark its Station Id radio button.</li>
+            <ul>
+                <li>Alternatively, you can find a WCWU PWS station location by searching available locations from the Wunderground.com website's <a href="https://www.wunderground.com/wundermap">map page</a> and clicking on a preferred station location.  The station ID will be at the top with a link to it's detail weather. Copy / paste the Station Id into the WCWU Station Id field and mark the WCWU radio button.</li>
+            </ul>
+        </ul>
+        <li>Enter your Zip code and mark the Zip code radio button. This will use OWM to get that Zip code's weather.</li>
+        <li>Enter your Lat/Lon and mark the Lat/Lon radio button. This will use OWM to get that Lat/Long location's weather.</li>
+        <li>Use the "Find Locations" button from the driver configuration screen to list surrounding areas. Up to 8 available listed City Names with their Lat/Long locations will be listed:</li>
+        <ul>
+            <li>To find an area around a city, enter the city (or even state name) and mark the CityName radio button, and then click the "Find Locations" button. Double-clicking a listed location will fill that data into the form. Select the desired location type's radio button to determine what location gets used in the OWM web-service call.</li>
+        </ul>
+    </ul>
+<p>The accounts and API Keys can be obtained for free by creating an account on the approprite website and registering an API key which you will put into the driver's configuration:</p>
+<ul>
+    <li>For OpenWeatherMap (v2.5 and v3.0) based services, go to <a href="https://www.openweathermap.org/api/" rel="nofollow">https://www.openweathermap.org/api/</a>.</li>
+    <li>For Wunderground based PWSs, go to <a href="https://www.wunderground.com/" rel="nofollow">https://www.wunderground.com/</a>.</li>
+    <li>For WeatherLink Live based PWSs, go to <a href="https://www.weatherlink.com/" rel="nofollow">https://www.weatherlink.com/</a>.</li>
+</ul>
+BTW - there are buttons for each of these sites on the driver tab to go directly to these sites and get this working.
+</li>
+</ul>
+
+<hr>
+OpenWeatherMap v3.0 allows the migration of PWS data into their system from other systems (e.g. Wunderground/WeatherChannel). For this I use <a href="https://script.google.com/home/">https://script.google.com/home/</a> scripting services with code.gs from <a href="https://github.com/leoherzog/WundergroundStationForwarder">https://github.com/leoherzog/WundergroundStationForwarder</a>.
+<p>
+    Having written the driver with up to 4 different sources to select from allows you to use the ObsCon Hub driver to select this driver configured for your favorite source with other drivers to fill in the weather elements not available.
+    (e.g. WCWU doesn't get Cloud Cover, but OWM does, so configure this driver for your PWS in WCWU and then select OWM in ObsCon Hub just for Cloud Cover).
+<p>Please Note: None of the above sources deliver StarFWHM, or Sky Temperature, Brightness or Quality. <br>
+<p>
+    Each driver gets everything with the following exceptions:
+    <ul>
+        <li>WCWU doesn't get Cloud Cover (so I set it to 0)</li>
+        <li>OWM  doesn't get true Wind Gust (I feed that Wind Speed instead)</li>
+        <li>OWM3 doesn't get Cloud Cover (so I set it to 0) or true Wind Gust (I feed it Wind Speed instead)</li>
+        <li>WLL  doesn't get Barometric Pressure or Cloud Cover (so I set them to 0)</li>
+    </ul>
+
