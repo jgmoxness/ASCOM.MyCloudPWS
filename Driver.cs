@@ -409,13 +409,13 @@ namespace ASCOM.MyCloudPWS
         public static double rainRate;
         public static double? cloudCover;
 
-        public static bool UpdateWeather()
+        public bool UpdateWeather()
         {
             try
             {
                 var reply = GetResponseStr();
                 //Console.WriteLine("reply  " + reply);
-                //LogMessage("UpdateWeather", "reply {0}");
+                LogMessage("UpdateWeather", "reply {0}", reply);
                 var jss = new JavaScriptSerializer();
                 if (myLocationType == "stationIdWCWU")
                 {
@@ -423,8 +423,8 @@ namespace ASCOM.MyCloudPWS
                     temp = weatherDataWCWU.observations[0].metric.temp; // -32)*5/9; or - 273.15
                     humidity = weatherDataWCWU.observations[0].humidity;
                     pressure = weatherDataWCWU.observations[0].metric.pressure; // * 0.02953;
-                    dewPt = weatherDataWCWU.observations[0].metric.dewPt; // * 33.863;
-                    windDir = weatherDataWCWU.observations[0].windDir;
+                    dewPt = weatherDataWCWU.observations[0].metric.dewpt; // * 33.863;
+                    windDir = weatherDataWCWU.observations[0].winddir;
                     windSpeed = weatherDataWCWU.observations[0].metric.windSpeed * 0.44704;
                     windGust = weatherDataWCWU.observations[0].metric.windGust * 0.44704;
                     rainRate = weatherDataWCWU.observations[0].metric.precipRate;
@@ -508,7 +508,7 @@ namespace ASCOM.MyCloudPWS
             }
             catch 
             {
-                //LogMessage("UpdateWeather", "error {0}",ex);
+                // LogMessage("UpdateWeather", "error {0}",ex);
                 return false;
             }
         }
@@ -673,7 +673,7 @@ namespace ASCOM.MyCloudPWS
             }
         }
 
-        private static void GetData(string message)
+        private void GetData(string message)
         {
             try
             {
