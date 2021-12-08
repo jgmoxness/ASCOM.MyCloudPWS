@@ -34,19 +34,19 @@ namespace ASCOM.MyCloudPWS
         //      "country": "US",
         public string country { get; set; }
         //      "solarRadiation": null,
-        public bool? solarRadiation { get; set; }
+        public double? solarRadiation { get; set; }
         //      "lon": -110.854523,
         public double? lon { get; set; }
         //      "realtimeFrequency": null,
-        public bool? realtimeFrequency { get; set; }
+        public double? realtimeFrequency { get; set; }
         //      "epoch": 1629509979,
-        public int? epoch { get; set; }
+        public long? epoch { get; set; }
         //      "lat": 32.28858,
         public double? lat { get; set; }
         //      "uv": null,
-        public bool? uv { get; set; }
+        public double? uv { get; set; }
         //      "windDir": 225,
-        public int? windDir { get; set; }
+        public int? winddir { get; set; }
         //      "humidity": 35.0,
         public double? humidity { get; set; }
         //      "qcStatus": 1,
@@ -63,7 +63,7 @@ namespace ASCOM.MyCloudPWS
         //        "heatIndex": 94.3,
         public double? heatIndex { get; set; }
         //       "dewPt": 61.0,
-        public double? dewPt { get; set; }
+        public double? dewpt { get; set; }
         //        "windChill": 93.6,
         public double? windChill { get; set; }
         //        "windSpeed": 0.0,
@@ -78,6 +78,6 @@ namespace ASCOM.MyCloudPWS
         public double? precipTotal { get; set; }
         //        "elev": 2690.0
         public double? elev { get; set; }
-        public int? cod { get; set; }
+        // public int? cod { get; set; }
     }
 }
